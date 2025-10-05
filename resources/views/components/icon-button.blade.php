@@ -1,7 +1,6 @@
 @props(['tag' => 'button', 'type' => 'button', 'href' => '#'])
-
 @php
-    $class = 'inline-flex items-center px-4 py-2 bg-orange-600 border border-transparent rounded-md font-medium font-[Montserrat] text-xs text-white tracking-widest hover:bg-red-400 focus:bg-gray-400 active:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition ease-in-out duration-150';
+    $class = 'w-9 h-9 bg-red-400 rounded-lg flex justify-center items-center';
 @endphp
 
 @if($tag === 'button')
