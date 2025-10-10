@@ -1,7 +1,11 @@
 <x-guest-layout>
     <div class="flex justify-end pt-10 px-12 pb-8 relative w-full">
         <div class="absolute w-full h-full left-0 bottom-0 bg-[url(../img/register-bg.png)] bg-no-repeat bg-left-bottom z-0"></div>
-        <form method="POST" action="{{ route('register') }}" class="flex flex-col gap-5 min-w-[50%] relative z-[1]">
+        <form
+            method="POST"
+            action="{{ route('register') }}"
+            class="flex flex-col gap-5 min-w-[50%] relative z-[1]"
+            x-data="{ agreed: false }">
             @csrf
             <h1 class="text-4xl font-bold font-[Montserrat]">Sign Up</h1>
             <div>
@@ -100,12 +104,13 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
             <div>
-                <x-checkbox name="policy">
+                <x-checkbox name="policy" x-on:click="agreed = !agreed">
                     <span class="order-last ml-4">I agree to all terms</span>
                 </x-checkbox>
+                <x-input-error :messages="$errors->get('policy')" class="mt-2" />
             </div>
             <div>
-                <x-primary-button type="submit" class="py-5 px-7" disabled>Register</x-primary-button>
+                <x-primary-button type="submit" class="py-5 px-7"  x-bind:disabled="!agreed">Register</x-primary-button>
             </div>
             <div>
                 <p>Already have an account? <a class="text-sky-600" href="{{ route('login') }}">Sign In</a></p>
