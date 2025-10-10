@@ -41,7 +41,7 @@
                 </x-checkbox>
             </div>
             <div>
-                <x-primary-button type="submit" class="py-5 px-7" disabled>Login</x-primary-button>
+                <x-primary-button type="submit" class="py-5 px-7">Login</x-primary-button>
             </div>
             <div>
                 <p>Forgot your password? <a class="text-sky-600" href="{{ route('password.request') }}">Reset</a></p>
