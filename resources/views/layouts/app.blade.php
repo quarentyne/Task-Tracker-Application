@@ -16,15 +16,15 @@
     </head>
     <body class="font-[Inter] antialiased">
         <div class="min-h-screen bg-[#F5F8FF] flex flex-col w-full">
-{{--            @include('layouts.navigation')--}}
-
             <!-- Page Heading -->
             <x-header />
 
             <!-- Page Content -->
-            <main class="flex flex-row w-full flex-1">
+            <main class="pt-14 flex flex-row w-full flex-1 gap-[76px]">
                 @include('layouts.sidebar')
-                {{ $slot }}
+                <div class="pb-8 pr-20 flex-1">
+                    {{ $slot }}
+                </div>
             </main>
         </div>
     </body>

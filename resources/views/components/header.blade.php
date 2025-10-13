@@ -1,4 +1,4 @@
-<header class="bg-[#F8F8F8] px-20 pt-9 pb-6 shadow-md grid grid-cols-[1fr,2fr] sticky top-0">
+<header class="bg-[#F8F8F8] px-20 pt-9 pb-6 shadow-md grid grid-cols-[1fr,2fr] sticky top-0 z-[1]">
     <h1 class="font-medium text-3xl">
         <span class="text-red-400">Daily</span> Task Tracker
     </h1>
