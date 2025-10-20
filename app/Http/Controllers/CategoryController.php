@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $categories = auth()->user()->categories;
 
-        dd($categories);
+        return view('category.index', compact('categories'));
     }
 
     public function create()
@@ -58,5 +59,7 @@ class CategoryController extends Controller
         Gate::authorize('delete', $category);
 
         $category->delete();
+
+        return redirect()->back()->with('success', 'Category was successfully deleted');
     }
 }
