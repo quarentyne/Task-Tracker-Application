@@ -20,7 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class)->names([
         'index' => 'categories.list',
         'store' => 'categories.store',
-        'destroy' => 'categories.destroy',
+        'create' => 'categories.create',
+        'edit' => 'categories.edit',
+        'update' => 'categories.update',
     ]);;
 });
 
