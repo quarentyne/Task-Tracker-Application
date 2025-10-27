@@ -5,8 +5,10 @@
         </div>
     @endif
     <x-content-wrapper>
-        <x-content-header>Task Categories</x-content-header>
-        <x-primary-button tag="a" href="{{ route('categories.create') }}" class="mt-6">Add Category</x-primary-button>
+        <div class="flex justify-between items-center">
+            <x-content-header>Task Categories</x-content-header>
+            <x-primary-button tag="a" href="{{ route('categories.create') }}">Add Category</x-primary-button>
+        </div>
         <table class="mt-12 w-full border-separate border-spacing-0">
             <thead>
             <tr>

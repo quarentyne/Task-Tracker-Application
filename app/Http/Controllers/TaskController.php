@@ -15,16 +15,16 @@ class TaskController extends Controller
 {
     public function index(): View
     {
-        $tasks = auth()->user()->tasks();
+        $tasks = Task::where('user_id', auth()->id())->with('category')->orderBy('created_at', 'desc')->get();
 
-        return view('tasks.index', compact('tasks'));
+        return view('task.index', compact('tasks'));
     }
 
     public function create(): View
     {
         $categories = Category::all()->where('user_id', auth()->id());
 
-        return view('tasks.create', compact('categories'));
+        return view('task.create', compact('categories'));
     }
 
     public function store(TaskStoreRequest $request)
@@ -39,14 +39,14 @@ class TaskController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect(route('tasks.index'))->with('success', 'Task created successfully!');
+        return redirect(route('task.index'))->with('success', 'Task created successfully!');
     }
 
     public function show(Task $task): View
     {
         Gate::authorize('view', $task);
 
-        return view('tasks.show', compact('task'));
+        return view('task.show', compact('task'));
     }
 
     public function edit(Task $task): View
@@ -55,7 +55,7 @@ class TaskController extends Controller
 
         $categories = Category::all()->where('user_id', auth()->id());
 
-        return view('tasks.edit', compact('task', 'categories'));
+        return view('task.edit', compact('task', 'categories'));
     }
 
     public function update(TaskUpdateRequest $request, Task $task)
@@ -64,7 +64,7 @@ class TaskController extends Controller
 
         $task->update($taskData);
 
-        return redirect(route('tasks.index'))->with('success', 'Task updated successfully!');
+        return redirect(route('task.index'))->with('success', 'Task updated successfully!');
     }
 
     public function destroy(Task $task): View
@@ -73,7 +73,7 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return view('tasks.destroy', compact('task'))->with('success', 'Task deleted!');
+        return view('task.destroy', compact('task'))->with('success', 'Task deleted!');
     }
 
     public function complete(Task $task)

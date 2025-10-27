@@ -26,16 +26,8 @@ Route::middleware('auth')->group(function () {
         'update' => 'categories.update',
     ]);
 
-    Route::resource('tasks', CategoryController::class)->names([
-        'index' => 'categories.list',
-        'store' => 'categories.store',
-        'create' => 'categories.create',
-        'edit' => 'categories.edit',
-        'update' => 'categories.update',
-    ]);
-
-    Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('task.complete');
-    Route::resource('tasks', TaskController::class)->names([
+    Route::post('/task/{task}/complete', [TaskController::class, 'complete'])->name('task.complete');
+    Route::resource('task', TaskController::class)->names([
         'index' => 'task.list',
         'store' => 'task.store',
         'create' => 'task.create',

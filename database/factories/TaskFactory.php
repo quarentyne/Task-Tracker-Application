@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->word(),
+            'description' => fake()->sentence(),
+            'due_date' => fake()->dateTimeBetween('tomorrow', '+1 year')->format('Y-m-d H:i:s'),
+            'user_id' => User::factory(),
+            'category_id' => Category::factory(),
         ];
     }
 }

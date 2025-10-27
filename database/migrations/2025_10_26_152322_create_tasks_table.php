@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('completed_at')->nullable();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
+            $table->timestamps();
         });
     }
 
