@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Task;
 use App\Models\User;
-use Illuminate\Console\View\Components\Task;
 
 class TaskPolicy
 {

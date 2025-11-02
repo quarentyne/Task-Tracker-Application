@@ -17,8 +17,12 @@
                         <x-dropdown-link href="{{ route('task.edit', $task) }}">
                             Edit Task
                         </x-dropdown-link>
-                        <x-dropdown-link href="{{ route('task.destroy', $task) }}">
-                            Delete Task
+                        <x-dropdown-link href="javascript:void(0);">
+                            <form method="post" action="{{ route('task.destroy', $task) }}">
+                                @csrf
+                                @method('delete')
+                                <button class="" type="submit">Delete Task</button>
+                            </form>
                         </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>

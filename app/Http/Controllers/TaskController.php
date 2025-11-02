@@ -7,9 +7,9 @@ use App\Http\Requests\TaskUpdateRequest;
 use App\Models\Category;
 use App\Models\Task;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class TaskController extends Controller
 {
@@ -22,12 +22,12 @@ class TaskController extends Controller
 
     public function create(): View
     {
-        $categories = Category::all()->where('user_id', auth()->id());
+        $categories = Category::all()->where('user_id', auth()->id())->pluck('name', 'id');
 
         return view('task.create', compact('categories'));
     }
 
-    public function store(TaskStoreRequest $request)
+    public function store(TaskStoreRequest $request): RedirectResponse
     {
         $taskData = $request->validated();
 
@@ -39,7 +39,7 @@ class TaskController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect(route('task.index'))->with('success', 'Task created successfully!');
+        return redirect(route('task.list'))->with('success', 'Task created successfully!');
     }
 
     public function show(Task $task): View
@@ -64,16 +64,16 @@ class TaskController extends Controller
 
         $task->update($taskData);
 
-        return redirect(route('task.index'))->with('success', 'Task updated successfully!');
+        return redirect(route('task.list'))->with('success', 'Task updated successfully!');
     }
 
-    public function destroy(Task $task): View
+    public function destroy(Task $task): RedirectResponse
     {
         Gate::authorize('delete', $task);
 
         $task->delete();
 
-        return view('task.destroy', compact('task'))->with('success', 'Task deleted!');
+        return redirect(route('task.list'))->with('success', 'Task deleted successfully!');
     }
 
     public function complete(Task $task)
