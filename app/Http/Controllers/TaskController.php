@@ -10,12 +10,17 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class TaskController extends Controller
 {
     public function index(): View
     {
-        $tasks = Task::where('user_id', auth()->id())->with('category')->orderBy('created_at', 'desc')->get();
+        $tasks = Task::where('user_id', auth()->id())
+            ->with('category')
+            ->orderByRaw('CASE WHEN completed_at IS NULL THEN 0 ELSE 1 END')
+            ->orderBy('due_date', 'asc')
+            ->get();
 
         return view('task.index', compact('tasks'));
     }
@@ -53,12 +58,12 @@ class TaskController extends Controller
     {
         Gate::authorize('view', $task);
 
-        $categories = Category::all()->where('user_id', auth()->id());
+        $categories = Category::all()->where('user_id', auth()->id())->pluck('name', 'id');
 
         return view('task.edit', compact('task', 'categories'));
     }
 
-    public function update(TaskUpdateRequest $request, Task $task)
+    public function update(TaskUpdateRequest $request, Task $task): RedirectResponse
     {
         $taskData = $request->validated();
 
@@ -76,10 +81,12 @@ class TaskController extends Controller
         return redirect(route('task.list'))->with('success', 'Task deleted successfully!');
     }
 
-    public function complete(Task $task)
+    public function complete(Task $task): RedirectResponse
     {
         $task->completed_at = isset($task->completed_at) ? null : Carbon::now();
 
         $task->save();
+
+        return Redirect::back()->with('success', 'Task status changed successfully!');
     }
 }

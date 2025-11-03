@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rules\Date;
+use Illuminate\Validation\Rule;
 
 class TaskUpdateRequest extends FormRequest
 {
@@ -31,9 +31,17 @@ class TaskUpdateRequest extends FormRequest
                 'min:2',
                 'max:255',
             ],
+            'description' => [
+                'required',
+                'min:2',
+            ],
             'due_date' => [
                 'required',
-                Date::format('Y-m-d')->afterOrEqual('now'),
+                'date',
+            ],
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id')->where('user_id', auth()->id()),
             ],
         ];
     }

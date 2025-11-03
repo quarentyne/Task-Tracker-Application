@@ -1,9 +1,9 @@
-<x-content-wrapper class="flex flex-col justify-between">
+<x-content-wrapper class="flex flex-col justify-between {{ $task->completed_at ? 'bg-lime-200' : '' }}">
     <div>
         <div class="grid grid-cols-[90%_10%] gap-2">
             <a class="font-semibold" href="{{ route('task.show', $task) }}">{{ $task->title }}</a>
             <div class="text-right">
-                <x-dropdown width="w-[120px]">
+                <x-dropdown width="w-[150px]">
                     <x-slot name="trigger">
                         <button type="button" class="h-full">
                             <svg width="16" height="5" viewBox="0 0 16 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -14,6 +14,12 @@
                         </button>
                     </x-slot>
                     <x-slot name="content">
+                        <x-dropdown-link href="javascript:void(0);">
+                            <form method="post" action="{{ route('task.complete', $task) }}">
+                                @csrf
+                                <button class="" type="submit">{{ $task->completed_at ? 'Incomplete' : 'Complete' }} Task</button>
+                            </form>
+                        </x-dropdown-link>
                         <x-dropdown-link href="{{ route('task.edit', $task) }}">
                             Edit Task
                         </x-dropdown-link>
@@ -32,6 +38,11 @@
     </div>
     <div class="mt-1 text-xs flex justify-between">
         <span>Category: {{ $task->category->name }}</span>
-        <span class="text-zinc-400 text-[10px]">Created on: {{ $task->created_at->format('d/m/Y H:i') }}</span>
+        <div class="flex flex-col gap-1 items-end">
+            <span class="text-zinc-400 text-[10px]">Created on: {{ $task->created_at->format('d/m/Y H:i') }}</span>
+            @if($task->completed_at)
+                <span class="text-zinc-400 text-[10px]">Completed at: {{  \Carbon\Carbon::parse($task->completed_at)->format('d/m/Y H:i') }}</span>
+            @endif
+        </div>
     </div>
 </x-content-wrapper>
