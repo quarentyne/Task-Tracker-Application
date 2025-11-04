@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Category>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
  */
-class CategoryFactory extends Factory
+class TaskFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,11 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'title' => fake()->word(),
+            'description' => fake()->sentence(),
+            'due_date' => fake()->dateTimeBetween('tomorrow', '+1 year')->format('Y-m-d H:i:s'),
             'user_id' => User::factory(),
+            'category_id' => Category::factory(),
         ];
     }
 }
