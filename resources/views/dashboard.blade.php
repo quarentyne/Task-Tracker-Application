@@ -72,15 +72,15 @@
                     <h6 class="font-medium text-red-400">Task Status</h6>
                 </div>
                 <div class="mt-5 flex justify-between">
-                    <x-progress-circle progress="{{ $completedTodayTasks / $totalTodayTasks * 100 }}" color="#0225FF">
+                    <x-progress-circle progress="{{ $totalTodayTasks === 0 ?: ($completedTodayTasks / $totalTodayTasks * 100) }}" color="#0225FF">
                         <x-slot name="value">{{ $completedTodayTasks }} / {{ $totalTodayTasks }}</x-slot>
                         <x-slot name="label">Completed today</x-slot>
                     </x-progress-circle>
-                    <x-progress-circle progress="{{ $completedTotalTasks / $totalTasks * 100 }}" color="#05A301">
+                    <x-progress-circle progress="{{ $totalTasks === 0 ?: ($completedTotalTasks / $totalTasks * 100) }}" color="#05A301">
                         <x-slot name="value">{{ $completedTotalTasks }} / {{ $totalTasks }}</x-slot>
                         <x-slot name="label">Completed total</x-slot>
                     </x-progress-circle>
-                    <x-progress-circle progress="{{ $expiredTotalTasks / $totalTasks * 100 }}" color="#F21E1E">
+                    <x-progress-circle progress="{{ $totalTasks === 0 ?: ($expiredTotalTasks / $totalTasks * 100) }}" color="#F21E1E">
                         <x-slot name="value">{{ $expiredTotalTasks }}</x-slot>
                         <x-slot name="label">Expired tasks</x-slot>
                     </x-progress-circle>

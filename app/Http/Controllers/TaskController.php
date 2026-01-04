@@ -7,6 +7,7 @@ use App\Http\Requests\TaskUpdateRequest;
 use App\Models\Category;
 use App\Models\Task;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -14,9 +15,20 @@ use Illuminate\Support\Facades\Redirect;
 
 class TaskController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $tasks = Task::where('user_id', auth()->id())
+        $query = Task::query();
+
+        if($request->get('q')) {
+            $requestQuery = $request->get('q');
+
+            $query->where(function ($query) use ($requestQuery) {
+                $query->where('title', 'like', "%{$requestQuery}%")
+                    ->orWhere('description', 'like', "%{$requestQuery}%");
+            });
+        }
+
+        $tasks = $query->where('user_id', auth()->id())
             ->with('category')
             ->orderByRaw('CASE WHEN completed_at IS NULL THEN 0 ELSE 1 END')
             ->orderBy('due_date', 'asc')
