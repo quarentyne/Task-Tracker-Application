@@ -37,7 +37,7 @@
         <p class="line-clamp-3 text-sm text-neutral-500 mt-1">{{ $task->description }}</p>
     </div>
     <div class="mt-1 text-xs flex justify-between">
-        <span>Category: <a href="{{ route('categories.show', $task->category) }}">{{ $task->category->name }}</a></span>
+{{--        <span>Category: <a href="{{ route('categories.show', $task->category) }}">{{ $task->category->name }}</a></span>--}}
         <div class="flex flex-col gap-1 items-end">
             <span class="text-zinc-400 text-[10px]">Created on: {{ $task->created_at->format('d/m/Y H:i') }}</span>
             @if($task->completed_at)

@@ -20,21 +20,28 @@ class TaskController extends Controller
         $query = Task::query();
 
         if($request->get('q')) {
-            $requestQuery = $request->get('q');
-
-            $query->where(function ($query) use ($requestQuery) {
-                $query->where('title', 'like', "%{$requestQuery}%")
-                    ->orWhere('description', 'like', "%{$requestQuery}%");
-            });
+            $query->withSearchQuery($request->get('q'));
         }
 
-        $tasks = $query->where('user_id', auth()->id())
-            ->with('category')
-            ->orderByRaw('CASE WHEN completed_at IS NULL THEN 0 ELSE 1 END')
-            ->orderBy('due_date', 'asc')
+        if($request->get('filter_category')) {
+            $query->withCategory($request->get('filter_category'));
+        }
+
+        if($request->get('filter_date_created_from') || $request->get('filter_date_created_to')) {
+            $query->withDateCreatedBetween($request->get('filter_date_created_from') ?: null, $request->get('filter_date_created_to') ?: null);
+        }
+
+        if($request->get('filter_date_completed_from') || $request->get('filter_date_completed_to')) {
+            $query->withDateCompletedBetween($request->get('filter_date_completed_from') ?: null, $request->get('filter_date_completed_to') ?: null);
+        }
+
+        $tasks = $query->orderByRaw('CASE WHEN completed_at IS NULL THEN 0 ELSE 1 END')
+            ->orderBy('due_date')
             ->get();
 
-        return view('task.index', compact('tasks'));
+        $categories = Category::all()->where('user_id', auth()->id())->pluck('name', 'id');
+
+        return view('task.index', compact('tasks', 'categories'));
     }
 
     public function create(): View
