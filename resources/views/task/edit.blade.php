@@ -28,6 +28,12 @@
                 <x-textarea id="description" name="description" class="mt-1 max-w-[50vw] w-full">{{ $task->description }}</x-textarea>
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
             </div>
+            <div class="mt-6">
+                <x-checkbox name="recurring" is_checked="{{ $task->recurring }}">
+                    <span class="order-last ml-4">This task recurring everyday</span>
+                </x-checkbox>
+                <x-input-error :messages="$errors->get('recurring')" class="mt-2" />
+            </div>
             <div class="mt-6 flex gap-6">
                 <x-primary-button type="submit">Update</x-primary-button>
                 <x-primary-button tag="a" href="{{ route('task.list') }}">Cancel</x-primary-button>

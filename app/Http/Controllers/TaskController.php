@@ -58,6 +58,7 @@ class TaskController extends Controller
         Task::create([
             'title' => $taskData['title'],
             'description' => $taskData['description'],
+            'recurring' => $taskData['recurring'],
             'due_date' => $taskData['due_date'],
             'category_id' => $taskData['category_id'],
             'user_id' => auth()->id(),

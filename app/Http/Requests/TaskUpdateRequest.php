@@ -18,6 +18,13 @@ class TaskUpdateRequest extends FormRequest
         return Gate::allows('update', $task);
     }
 
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'recurring' => $this->has('recurring'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -43,6 +50,7 @@ class TaskUpdateRequest extends FormRequest
                 'required',
                 Rule::exists('categories', 'id')->where('user_id', auth()->id()),
             ],
+            'recurring' => 'boolean',
         ];
     }
 }

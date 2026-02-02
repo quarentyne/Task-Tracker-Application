@@ -15,6 +15,13 @@ class TaskStoreRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'recurring' => $this->has('recurring'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -40,6 +47,7 @@ class TaskStoreRequest extends FormRequest
                 'required',
                 Rule::exists('categories', 'id')->where('user_id', auth()->id()),
             ],
+            'recurring' => 'boolean',
         ];
     }
 }

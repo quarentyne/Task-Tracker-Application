@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->tinyInteger('recurring')->default(0);
             $table->dateTime('due_date');
             $table->dateTime('completed_at')->nullable();
             $table->foreignIdFor(User::class)->constrained();
