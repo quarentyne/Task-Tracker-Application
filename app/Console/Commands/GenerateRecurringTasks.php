@@ -45,8 +45,8 @@ class GenerateRecurringTasks extends Command
                 'due_date' => now()->addDay()->toDateString(),
             ]);
 
-        foreach ($tasks as $task) {
-            try {
+        try {
+            foreach ($tasks as $task) {
                 $taskDoesntExist = Task::withoutGlobalScope(TaskScope::class)
                     ->where('title', $task['title'])
                     ->where('description', $task['description'])
@@ -56,11 +56,11 @@ class GenerateRecurringTasks extends Command
                     ->doesntExist();
 
                 if($taskDoesntExist) Task::insert($task);
-
-                $this->info('All recurring tasks have been generated.');
-            } catch (\ErrorException $e) {
-                $this->error($e->getMessage());
             }
+
+            $this->info('All recurring tasks have been generated.');
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
     }
 }
